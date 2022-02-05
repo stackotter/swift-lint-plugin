@@ -11,7 +11,6 @@ struct LintCommand: CommandPlugin {
             let swiftLintArgs = [
                 "lint",
                 "--path", "\(target.directory)",
-                "--lenient"
             ]
             
             let command = "\(swiftLintPath.path) \(swiftLintArgs.joined(separator: " "))"
