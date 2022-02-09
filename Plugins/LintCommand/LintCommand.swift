@@ -13,7 +13,6 @@ struct LintCommand: CommandPlugin {
                 "--path", "\(target.directory)",
             ]
             
-            let command = "\(swiftLintPath.path) \(swiftLintArgs.joined(separator: " "))"
             let task = try Process.run(swiftLintPath, arguments: swiftLintArgs)
             task.waitUntilExit()
             
