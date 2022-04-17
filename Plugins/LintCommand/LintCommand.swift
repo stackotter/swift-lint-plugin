@@ -3,11 +3,11 @@ import PackagePlugin
 
 @main
 struct LintCommand: CommandPlugin {
-    func performCommand(context: PluginContext, targets: [Target], arguments: [String]) throws {
+    func performCommand(context: PluginContext, arguments: [String]) throws {
         let swiftLintTool = try context.tool(named: "swiftlint")
         let swiftLintPath = URL(fileURLWithPath: swiftLintTool.path.string)
-        
-        for target in targets {
+
+        for target in context.package.targets {
             let swiftLintArgs = [
                 "lint",
                 "--path", "\(target.directory)",
@@ -16,8 +16,8 @@ struct LintCommand: CommandPlugin {
             let task = try Process.run(swiftLintPath, arguments: swiftLintArgs)
             task.waitUntilExit()
             
-            if task.terminationStatus == 0 {
-                print("Linted the source code in \(target.directory).")
+            if task.terminationStatus == 0 || task.terminationStatus == 2 {
+                print("Linted the source code in \(target.directory)")
             } else {
                 Diagnostics.error("swiftlint invocation failed: exitStatus=\(task.terminationStatus)")
             }
