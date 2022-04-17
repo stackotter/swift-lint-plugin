@@ -11,6 +11,7 @@ struct LintCommand: CommandPlugin {
             let swiftLintArgs = [
                 "lint",
                 "--path", "\(target.directory)",
+                "--quiet"
             ]
             
             let task = try Process.run(swiftLintPath, arguments: swiftLintArgs)
